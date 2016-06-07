@@ -49,7 +49,9 @@ Grade: 75%
 
 Grade: 80%
 
-### Further projects in python include:
+### Further projects in python include that are unavailable:
+
+* Financial analysis of predictive modelling in debit-order date selection.  (Taking test dataset predictions and measuring financial impact against actual dates used)
 
 * A script to extract all historic and future management account excel document (>60) at lowest financial level, and manipulate for use in automatically reconciling data for all purposes. (Rolling data, grouped, month indexes etc.)
 
