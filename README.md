@@ -45,7 +45,6 @@ Grade: 75%
 
 ##### Computational Bayes: Gibbs sampling process
 * PDF report
-* LaTeX code
 * R script for computation and graphing
 
 Grade: 80%
