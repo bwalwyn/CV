@@ -14,14 +14,14 @@ The following are the data analysis projects I have coded and reported in python
 Report was graded 72%, 3rd highest in the Actuarial Honours class of 2014. 
 
 ##### Advert click-through rate prediction using ensemble methods
-* Word report
+* PDF report
 * R script for modelling and graphing
 * Plots
 
 Grade: 85%
 
 ##### Predicting bond prices using ensemble methods and artificial neural networks in shiny package
-* Word report
+* PDF report
 * R script for modelling and graphing tree methods
 * R script for modelling and graphing time series
 * R script for implementing shiny neural network in HTML
