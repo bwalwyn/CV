@@ -1,0 +1,333 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{amssymb}
+
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\beqn}{\begin{eqnarray}}
+\newcommand{\eeqn}{\end{eqnarray}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bdmath}{\begin{displaymath}}
+\newcommand{\edmath}{\end{displaymath}}
+\newcommand{\mbs}{\boldsymbol}
+\newcommand{\trm}{\textrm}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\pa}{\partial}
+\newcommand{\nn}{\nonumber}
+\newcommand{\ha}{\frac{1}{2}}
+\newcommand{\mpar}{\marginpar}
+\newcommand{\eq}{\!=\!}
+\newcommand{\noi}{\noindent}
+\newcommand*\colvec[3][]{
+    \begin{pmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{pmatrix}
+}
+
+\renewcommand{\theenumii}{(\roman{enumii})} 
+\renewcommand{\labelenumii}{\theenumii}
+
+\renewcommand{\theenumiii}{(\alph{enumiii})}
+\renewcommand{\labelenumiii}{\theenumiii}
+
+\def\annu#1#2{_{%
+  {\vbox{\hrule height .2pt
+    \kern 1pt
+    \hbox{$\scriptstyle{#1}$\kern .5pt
+}%
+  }\vrule width .2pt}
+  \kern 2pt
+  \vbox{\kern 1pt%
+    \hbox{$\scriptstyle{#2}$}
+  }%
+}}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in}
+\setlength{\textwidth}{6.10in}    
+
+\renewcommand{\textheight}{245mm}
+\renewcommand{\topmargin}{-18mm}
+
+\begin{document}
+
+\pagestyle{myheadings}
+
+\date{}
+%\maketitle
+\thispagestyle{empty}
+
+
+\begin{center}
+{ \bf University of Cape Town\\} 
+\end{center}
+
+\hrulefill
+ 
+ \begin{center}
+ {$\,$ \\
+ \huge Likelihood Assignment: O-ring thermal distress}
+ \end {center}
+ 
+ \hrulefill
+ \begin{itemize}
+\item[] $\,$ 
+\item[] Ben Walwyn
+\item[] WLWBEN001
+\item[] \today
+\end{itemize}
+ 
+
+
+$\,$ \\
+{\Large \bf Questions}\\
+
+\be
+
+
+\item  The data set includes the number of o-ring distresses experienced for 23 flights. The distresses occurred on the primary rings of the total of 6 field-joints per flight. For each flight, the temperature and pressure were recorded. The maximum number recorded was 2 distresses in a flight. 
+
+    
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=8cm]{scatterd.png}
+    \label{fig:scatter}
+    \caption{A scatter plot shows o-ring distress occurring mainly at low temperatures.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=8cm]{boxtemp.png}
+    \label{fig:box.temp}
+    \caption{Box plots for number of distress show a definite decreasing temperature trend, but a larger spread.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=8cm]{bar.png}
+    \label{fig:bar}
+    \caption{Pressure is measured by PSI at 3 levels: 50,100 and 200. The mean number of distresses is higher at 200 than for lower levels, shown by the bar plot. However, most of the flights recorded data at 200.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=8cm]{boxpsi.png}
+    \label{fig:box.psi}
+    \caption{In fact, there was only one recorded distress at a level below 200, out of 8 flights.}
+\end{figure}
+
+\item 
+Log-likelihood for binomial and the generalised linear model:
+
+\begin{align*}
+l(\pi)&=\sum\limits_{i=1}^{23} y_i log(\pi_i) + (6-y_i)log(1-\pi_i) + log\colvec{6}{y_i}\\
+l(\beta_0,\beta_1)&=\sum\limits_{i=1}^{23} y_i(\beta_0+\beta_1 x_i)-6*log(1+exp(\beta_0+\beta_1 x_i))
+\end{align*}
+
+\item 
+
+The log-likelihood for two parameters can be plotted on a 2D contour or heat image, shown in figures below. The maximum likelihood estimate for $\beta_0$ and $\beta_1$ are indicated by the square point one each. The 3D image of $\beta_0$ and $\beta_1$. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=9cm]{contourbeta.png}
+    \caption{The contours show an elliptical pattern for likelihood. The ellipse is centred around a decreasing line, so that as $\beta_1$ decreases higher values of $\beta_0$ are more likely. The most likely values are at the centre of this ellipse.}
+    \label{fig:box.psi}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=9cm]{heatbeta.png}
+    \label{fig:box.psi}
+    \caption{The heat plot shows that one side drops off much faster than the other}
+
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=9cm]{3dbeta.png}
+    \label{fig:box.psi}
+    \caption{3D likelihood plot confirm the shape indicated by the heat plot. The peak is somewhere in the middle  of the interval (-30:30) for $\beta_1$.}
+\end{figure}
+
+\item
+The maximum likelihood estimates are calculated using the function $glm$ in R. Table 1 reports the estimates, the inverse observed information and the correlation matrix.
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l | l | l l | l l }
+		&estimate &J& & cor.\\
+		\hline
+		$\beta_0$ & 5.08498 & 9.317598 & -0.142564 & 1.00 & -0.99 \\
+		$\beta_1$  & -0.11560 & -0.142564 & 0.002211 & -0.99 & 1.00\\
+		\hline
+		\end{tabular}
+	\end{center}
+	\caption{$glm$ function output. Highly negatively correlated coefficient as expected after viewing the contour log-likelihood plot. This negative relationship is intrinsic of a linear intercept and slope that tries to capture a negative relationship between two variables. The higher the intercept of the model, the more negative the slope must be. This means that coefficients cannot be interpreted independently of one another.}
+\end{table}
+
+An expression for the 95\% confidence interval is given using the asymptotic distribution given by:
+
+\begin{align*}
+(\hat{\boldsymbol \beta}-\boldsymbol \beta) J(\boldsymbol \beta) ( \hat{\boldsymbol \beta}-\boldsymbol \beta) \leq \chi^{2 (0.95)}_1
+\end{align*}
+
+Therefore,
+
+\[\frac{\hat{\beta_i}-\beta}{\sqrt {J_{ii}}} \sim N(0,1)\] 
+\[i = 0,1\]
+
+A confidence region based on the 2.5\% value of the normal distribution, 1.96, can then be used to create a normally approximated confidence region for both $beta_0$ and $\beta_1$.
+
+\item
+The probability of failure of the challenger shuttle is the parameter of interest. This probability can be given in terms of the $\beta$ parameters, and redefine a new variable $\lambda$ by:
+
+\begin{align*}
+\phi&=\frac{e^{\beta_0+\beta1*31}}{1+e^{\beta_0+\beta1*31}}\\
+\lambda&=\beta_1
+\end{align*}
+
+Therefore, to plot the log-likelihood interns of these new parameters we can write:
+\[\beta_0 = log(\frac{\phi}{1-\phi}) - 31\lambda\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=10cm]{contourphi.png}
+    \label{fig:box.psi}
+    \caption{Likelihood contour plot of $\phi$ and $\lambda$. The MLE is shown by the square dot. $\phi_{mle} = 0.8173$}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=9cm]{3dphi.png}
+    \label{fig:box.psi}
+    \caption{3D likelihood plot confirm the shape indicated by the heat plot. The peak is somewhere in the middle  of the interval (-30:30) for $\beta_1$.}
+\end{figure}
+
+\item
+\be
+\item
+\begin{align*}
+var(\phi)&=g'(\boldsymbol \beta)^TJ(\boldsymbol \beta)g'(\boldsymbol \beta)\\
+&= 0.05781743\\
+&\\
+&\text{where:}\\
+\frac{\delta g}{\delta\beta_0} &= \frac{e^{\beta_0+\beta_131}}{(1+e^{\beta_0+\beta_131})^2}\\
+\frac{\delta g}{\delta\beta_1} &= \frac{31e^{\beta_0+\beta_131}}{(1+e^{\beta_0+\beta_131})^2}\\
+&\\
+\text{Confidence intervaI} &= (\phi_{mle}-1.96s.e.(\phi_{mle}),phi_{mle}+1.96s.e.(\phi_{mle}))
+\end{align*}
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{c r r c}
+		$\phi$ & 2.5\% & 97.5\% & $\lambda$ \\
+		\hline
+		0.8173 & 0.3460 & 1.2885 & -0.1155 \\
+		\hline
+		\end{tabular}
+	\end{center}
+	\caption{Manual Wald results}
+\end{table}
+\item
+
+Predict function results:
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{c r r c}
+		$\phi$ & 2.5\% & 97.5\% & $\lambda$ \\
+		\hline
+		0.8173 & 0.3465 & 1.2890 & -0.1155 \\
+		\hline
+		\end{tabular}
+	\end{center}
+	\caption{Predict function output}
+\end{table}
+
+\ee
+
+\item
+Deviance chi-squared tests:
+\be
+\item
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l l l l l}
+		Model & Residual Dev. & Df. & Deviance & Chisq p-value\\
+		\hline
+		temp & 18.086  \\
+		temp+psi & 16.546 & 1 & 1.5407 & 0.2145\\
+		\hline
+		\end{tabular}
+	\end{center}
+	\caption{Testing significance of pressure coefficient with temperature in model}
+\end{table}
+\item
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{l l l l l}
+		Model & Residual Dev. & Df. & Deviance & Chisq p-value\\
+		\hline
+		null & 24.230  \\
+		temp & 18.086 & 1 & 6.144 & 0.01319\\
+		\hline
+		\end{tabular}
+	\end{center}
+	\caption{Testing significance of temperature coefficient}
+\end{table}
+\ee
+
+\item
+Profile log-likelihood for $\phi$ is the log-likelihood evaluated at the maximum likelihood estimate for $\lambda$ for each value of $\phi$. The profile likelihood is then the exponential of this function. 
+
+\begin{align*}
+l_\lambda(\phi) &= l(\phi, \lambda_{max})\\
+\text{where}&\\
+\lambda_{max} &= \max_{\lambda} l(\phi, \lambda)
+\end{align*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=9cm]{logprofphi.png}
+    \label{fig:box.psi}
+    \caption{profile log-likelihood for $\phi$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=9cm]{profphi.png}
+    \label{fig:box.psi}
+    \caption{profile likelihood with confidence intervals for $\phi$ using chi-squared distribution assumption of deviance. Confidence interval is (0.14,0.99)}
+\end{figure}
+
+\item
+The profile likelihood function has a long left tail and is therefore not quadratic. Hence, the method used to calculate the confidence interval for $\phi$ is not valid, since it assume asymptotic quadratic nature.
+
+\item
+O-ring distresses/failures were assumed to be binomially distributed with 6 independent field-points and a constant probability of failure within each flight.Exploratory analysis indicated that failures tended to occur more often at lower temperatures, except for one double failure at a higher temperature. There did not appear to be relationship with pressure. 
+
+These observations were confirmed by the analysis of deviance tests in question 7. A hypothesis with the null hypothesis $H_0: \beta_2 = 0$ had a p-value of 0.2, indicating that the a model including temperature was not significantly improved by including pressure. The temperature model compared to the null, however, was much more significant, reporting a p-value of 0.013. 
+
+Inference was then done on the parameter of  interest, $\phi$. The probability of failure at 31$\degree$F is significantly higher than the probability of failure for flights at temperatures between 60-80$\degree$. The estimate was 0.82 under both maximum likelihood estimation and profile likelihood. However, confidence intervals using the profile likelihood found that there is substantial amount of uncertainty in this estimate, with a lower bound of 0.14. The wald intervals reported in question 6 are unsuitable since they exceed 1, while the range of $\phi$ is only (0,1). The reason for this is obvious when plotting the profile likelihood which is clearly not quadratic.The $\phi$ MLE from the profile did match the MLE in the $glm$ function, and furthermore, the MLE is the same as the extrapolated probability of failure from the model, by plugging in a temperature of 31$\degree$F.
+
+This higher probability is however, of critical importance when considering the application. The safety of crew members should be value extremely highly, and this high probability, even with its wide interval, is too high.
+
+\ee
+
+
+
+
+
+
+
+
+
+\end {document}
